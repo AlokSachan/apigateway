@@ -16,14 +16,18 @@ public class ApiGatewayApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ApiGatewayApplication.class, args);
 	}
-//	@Bean
-//	public RouteLocator myRoutes(RouteLocatorBuilder builder){
-//
-//		return builder.routes()
-//				.route(p-> p.path("/book/**")
-//						.filters(f-> f.rewritePath("/book/(?<segment>.*)","/${segment}")
-//								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
-//						.uri("lb://booking-service"))
-//				.build();
-//	}
+	@Bean
+	public RouteLocator myRoutes(RouteLocatorBuilder builder){
+
+		return builder.routes()
+				.route(p-> p.path("/book/**")
+						.filters(f-> f.rewritePath("/book/(?<segment>.*)","/${segment}")
+								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
+						.uri("lb://BOOKING-MS"))
+				.route(p-> p.path("/property/**")
+						.filters(f-> f.rewritePath("/property/(?<segment>.*)","/${segment}")
+								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
+						.uri("lb://property-service"))
+				.build();
+	}
 }
